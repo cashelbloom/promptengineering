@@ -1,6 +1,7 @@
 import os
 from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
+from langchain.prompts import PromptTemplate
 from langchain_core.messages import HumanMessage, AIMessage
 from langchain.chains import LLMChain
 
@@ -48,28 +49,23 @@ question = "Who was the first president of the United States?"
 correct_answer = "George Washington"
 student_answer = "George Washingon"
 
-# prompt = ChatPromptTemplate.from_messages(
-#     [AIMessage(prompt_template_text), HumanMessage(question)]
-# )
-prompt = [AIMessage(prompt_template_text), HumanMessage(question)]
-# input_variables = (
-#     [
-#         {"question": question},
-#         {"correct_answer": "George Washington"},
-#         {"student_answer": "George Washington"},
-#     ],
-# )
-input_variables = {
-    "question": question,
-    "correct_answer": "George Washington",
-    "student_answer": "George Washington",
-}
+prompt = PromptTemplate(
+    input_variables=["question", "correct_answer", "student_answer"],
+    template=prompt_template_text,
+)
+# define chain
+chain = LLMChain(
+    llm=chat_model,
+    prompt=prompt,
+)
 
-output = chat_model.invoke(prompt, input_variables)
-# output = chat_model.invoke(prompt)
-# chain = LLMChain(chat_model=chat_model, prompt=prompt)
-
-
-# execute the chain
-# output = chain.run(input_variables)
-print(output)
+# run chain
+print(
+    chain.invoke(
+        {
+            "question": question,
+            "correct_answer": correct_answer,
+            "student_answer": student_answer,
+        }
+    )["text"]
+)

@@ -63,7 +63,7 @@ for student_answer in student_answer_list:
         student_answer
         + " - "
         + str(
-            chain.run(
+            chain.invoke(
                 {
                     "question": question,
                     "correct_answer": correct_answer,
@@ -92,7 +92,7 @@ for student_answer in student_answer_list:
         student_answer
         + " - "
         + str(
-            chain.run(
+            chain.invoke(
                 {
                     "question": question,
                     "correct_answer": correct_answer,
