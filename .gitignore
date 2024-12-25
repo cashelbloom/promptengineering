@@ -1,4 +1,3 @@
-.gitignore
 venvpromptengg
 */__pycache__
 /langchain_apikey.txt
